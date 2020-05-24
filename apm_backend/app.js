@@ -9,6 +9,21 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+// socket setting
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+io.on('connection' , function(socket) {
+  console.log('Connect from Client: '+socket)
+  socket.on('test', function(data){
+      console.log('message from Client: '+data.message)
+      // 클라이언트에게 메시지를 전송
+      io.emit('return', '서버에서보내는 메세지.');
+  });
+})
+server.listen(3001, function() {
+  console.log('socket io server listening on port 3001')
+})
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

@@ -128,7 +128,6 @@
       return {
         drawer: false,
         items: [
-            { icon: 'mdi-history', text: 'Guide', name: 'Guide' },
             { icon: 'mdi-contacts', text: 'Dashboard', name: 'Dashboard' },
         //   { icon: 'mdi-content-copy', text: 'Duplicates' },
         //   {

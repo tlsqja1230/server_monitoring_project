@@ -4,15 +4,13 @@ import router from './router'
 import vuetify from './plugins/vuetify';
 import axios from 'axios';
 import store from './store'
-import webstomp from 'webstomp-client'
-import sockjs from 'sockjs-client'
 import common from './js/common.js'
+import io from 'socket.io-client'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
-Vue.prototype.$webstomp = webstomp
-Vue.prototype.$sockjs = sockjs
 Vue.prototype.$common = common
+Vue.prototype.$io = io;
 
 new Vue({
   router,
