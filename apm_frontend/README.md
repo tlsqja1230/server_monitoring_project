@@ -1,4 +1,4 @@
-# apm_frontend
+# lucifer_front
 
 ## Project setup
 ```
