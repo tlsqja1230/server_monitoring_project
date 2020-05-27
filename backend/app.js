@@ -14,34 +14,30 @@ var io = require('socket.io')(server);
 let interCpu = new Function()
 let interCpuPercentage = new Function()
 let interWhoami = new Function()
+
+// 클라이언트에게 cpuPercentage data 전송
+interCpuPercentage = setInterval(() => {
+  cpu.usage().then(cpuPercentage => {
+    io.emit('cpuPercentage', {cpuPercentage : cpuPercentage});
+  })
+}, 2000);
+
+// 클라이언트에게 cpu data 전송
+interCpu = setInterval(() => {
+  var count = cpu.count()
+  io.emit('cpu', {cpu : count})
+}, 2000);
+
+// 클라이언트에게 whoami data 전송
+interWhoami = setInterval(() => {
+  var osCmd = osu.osCmd  
+  osCmd.whoami().then(userName => {
+    io.emit('whoami', {userName : userName});
+  })
+}, 2000);
+
 io.on('connection' , function(socket) {
-  socket.on('cpu', function(data){
-    // 클라이언트에게 cpu data 전송
-    interCpu = setInterval(() => {
-      var count = cpu.count()
-      io.emit('cpu', {cpu : count})
-    }, 2000);
-  });
-
-  socket.on('cpuPercentage', function(data){
-    // 클라이언트에게 cpuPercentage data 전송
-    interCpuPercentage = setInterval(() => {
-      cpu.usage().then(cpuPercentage => {
-        io.emit('cpuPercentage', {cpuPercentage : cpuPercentage});
-      })
-    }, 2000);
-  });
-
-  socket.on('whoami', function(data){
-    // 클라이언트에게 whoami data 전송
-    interWhoami = setInterval(() => {
-      var osCmd = osu.osCmd  
-      osCmd.whoami().then(userName => {
-        io.emit('whoami', {userName : userName});
-      })
-    }, 2000);
-  });
-
+  console.log(socket)
   // 접속이 끊어진 경우 처리
   socket.on('disconnect', function(){
     console.log('접속을 해제하였습니다.')

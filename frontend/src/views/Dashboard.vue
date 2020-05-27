@@ -19,7 +19,7 @@
                         <GaugeChart v-if="item.chartName === 'CPU'" :series="cpuData"></GaugeChart>
                         <ScatterChart v-if="item.chartName === 'XLOG'" :series="xlogData"></ScatterChart>
                         <LineChart v-if="item.chartName === 'TPS'" :series="tpsData"></LineChart>
-                        <RealTimeLineChart v-if="item.chartName === 'ERROR RATE'" :stompClient="stompClient" ></RealTimeLineChart>
+                        <RealTimeLineChart v-if="item.chartName === 'ERROR RATE'" ></RealTimeLineChart>
                         <ScatterChart v-if="item.chartName === 'ACTIVE SERVICE'" :series="activeServiceData"></ScatterChart>
                         <!-- 차트영역 end -->
                     </v-card-text>
@@ -59,8 +59,6 @@ export default {
             tpsData: [], //tps데이터
             errorRateData: [], //errorRate데이터
             activeServiceData: [], //activeService데이터
-            //socket
-            socket: {}
         }
     },
     beforeRouteEnter (to, from, next) {
@@ -90,22 +88,25 @@ export default {
         },
         socketConnect() {
             //socket연결
-            this.socket = this.$io('http://localhost:3001');
-            this.socket.emit('cpu',{});
-            this.socket.emit('cpuPercentage',{});
-            this.socket.emit('whoami',{});
+            let socket = this.$io('http://localhost:3001')
+            //store에 socket객체 저장
+            this.$store.commit('socket',socket)
+
+            // socket.emit('cpu',{});
+            // socket.emit('cpuPercentage',{});
+            // socket.emit('whoami',{});
             
-            this.socket.on('cpu', function(data){
-                console.log('cpu: '+data.cpu)
-            });
+            // socket.on('cpu', function(data){
+            //     console.log('cpu: '+data.cpu)
+            // });
 
-            this.socket.on('cpuPercentage', function(data){
-                console.log('cpuPercentage: '+data.cpuPercentage)
-            });
+            // socket.on('cpuPercentage', function(data){
+            //     console.log('cpuPercentage: '+data.cpuPercentage)
+            // });
 
-            this.socket.on('whoami', function(data){
-                console.log('whoami: '+data.userName)
-            });
+            // socket.on('whoami', function(data){
+            //     console.log('whoami: '+data.userName)
+            // });
         },
     },
 }
