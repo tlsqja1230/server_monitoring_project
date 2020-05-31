@@ -7,44 +7,67 @@ var osu = require('node-os-utils')
 var cpu = osu.cpu
 var app = express();
 
-// socket setting
+// socket setting start
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
 let interCpu = new Function()
-let interCpuPercentage = new Function()
+let interCpuPerData = new Function()
 let interWhoami = new Function()
+let isInterval = false
 
-// 클라이언트에게 cpuPercentage data 전송
-interCpuPercentage = setInterval(() => {
-  cpu.usage().then(cpuPercentage => {
-    io.emit('cpuPercentage', {cpuPercentage : cpuPercentage});
-  })
-}, 2000);
+let pad =(val)=>{
+  return String(val).length === 1? '0'+val : val
+}
 
-// 클라이언트에게 cpu data 전송
-interCpu = setInterval(() => {
-  var count = cpu.count()
-  io.emit('cpu', {cpu : count})
-}, 2000);
+let dataInterval = () =>{
+  // 클라이언트에게 cpuPercentage data 전송
+  interCpuPerData = setInterval(() => {
+    cpu.usage().then(res => {
+      console.log(res)
+      let d = new Date()
+      
+      let cpuPerData = {
+          x: `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`,
+          y: res
+      }
+      io.emit('cpuPerData', {cpuPerData : cpuPerData});
+    })
+  }, 2000);
 
-// 클라이언트에게 whoami data 전송
-interWhoami = setInterval(() => {
-  var osCmd = osu.osCmd  
-  osCmd.whoami().then(userName => {
-    io.emit('whoami', {userName : userName});
-  })
-}, 2000);
+  // 클라이언트에게 cpu data 전송
+  interCpu = setInterval(() => {
+    var count = cpu.count()
+    io.emit('cpu', {cpu : count})
+  }, 2000);
+
+  // 클라이언트에게 whoami data 전송
+  interWhoami = setInterval(() => {
+    var osCmd = osu.osCmd  
+    osCmd.whoami().then(userName => {
+      io.emit('whoami', {userName : userName});
+    })
+  }, 2000);
+}
 
 io.on('connection' , function(socket) {
-  console.log(socket)
+  // interval 없을 경우 등록
+  if(!isInterval){
+    dataInterval()
+    isInterval = true
+    console.log('인터벌등록')
+  }
   // 접속이 끊어진 경우 처리
   socket.on('disconnect', function(){
     console.log('접속을 해제하였습니다.')
-    // interval 해제
-    clearInterval(interCpu);
-    clearInterval(interCpuPercentage);
-    clearInterval(interWhoami);
+    // 연결된 소켓이 없을 경우 interval 해제
+    if(Number(socket.server.httpServer._connections) === 0){
+      clearInterval(interCpu);
+      clearInterval(interCpuPerData);
+      clearInterval(interWhoami);
+      isInterval = false
+      console.log('인터벌삭제')
+    }
   })
 
   // 오류가 난 경우 처리
@@ -55,7 +78,7 @@ io.on('connection' , function(socket) {
 server.listen(3001, function() {
   console.log('socket io server listening on port 3001')
 })
-
+// socket setting end
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');

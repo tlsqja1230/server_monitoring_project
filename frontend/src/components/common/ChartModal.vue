@@ -40,11 +40,23 @@
 
 <script>
   export default {
+    props:{
+      selectList:{
+        type: Array
+      }
+    },
     computed:{
       itemList(){
         let list = []
         this.chartList.forEach(item=>{
-          list.push(item.name)
+          let isFlag = true
+          // 이미 선택한 차트는 selectbox에 비노출
+          this.selectList.forEach(item2=>{
+            if(item.name === item2.chartName){
+              isFlag = false
+            }
+          })
+          if(isFlag) list.push(item.name)
         })
         return list
       }

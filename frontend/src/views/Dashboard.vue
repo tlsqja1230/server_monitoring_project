@@ -2,7 +2,7 @@
     <v-container grid-list-xl fluid>
         <v-layout row wrap class="layout_dashboard">
             <div class="div_top">
-                <ChartModal @modalResult="modalResult"></ChartModal>
+                <ChartModal @modalResult="modalResult" :selectList="chartList"></ChartModal>
             </div>
             <div class="ma-1" v-for="(item, index) in chartList" :key="index" :style="{width:$common.isMobile()? '100%' : item.width+'%'}">
                 <v-card>
@@ -87,10 +87,9 @@ export default {
             this.chartList.splice(index,1);
         },
         socketConnect() {
-            //socket연결
+            // socket연결
             let socket = this.$io('http://localhost:3001')
-            //store에 socket객체 저장
-            this.$store.commit('socket',socket)
+            this.$store.dispatch('connectSocket',socket);
 
             // socket.emit('cpu',{});
             // socket.emit('cpuPercentage',{});
