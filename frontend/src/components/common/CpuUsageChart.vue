@@ -1,16 +1,14 @@
 <template>
-  <div id="realTimeLineChart">    
-      <apexchart type="line" ref="chart" :options="chartOptions" :series="series"></apexchart>
-    </div>
+  <div id="cpuUsageChart">    
+    <apexchart type="line" ref="chart" :options="chartOptions" :series="series"></apexchart>
+  </div>
 </template>
 
 <script>
 import VueApexCharts from 'vue-apexcharts'
 
-  //var lastDate = 0;
-  var data = []
-  //var TICKINTERVAL = 86400000
-  //let XAXISRANGE = 777600000
+  let data = []
+  let count = 11
   function initCharData(count) {
     var i = 0;
     while (i < count) {
@@ -22,8 +20,7 @@ import VueApexCharts from 'vue-apexcharts'
       i++;
     }
   }
-  
-  initCharData(11)
+  initCharData(count)
   
   function getNewSeries(xyData) {
     data.push({
@@ -36,7 +33,7 @@ import VueApexCharts from 'vue-apexcharts'
     data = data.slice(data.length - 10, data.length);
   }
 export default {
-  name: 'RealTimeLineChart',
+  name: 'CpuUsageChart',
   props: {
   },
   components: {
@@ -93,8 +90,8 @@ export default {
           show: false
         },
       },
-      dataWatch: {}, // cpuPerData watch객체
-      resetInterval: {}, // cpuPerData resetInterval객체
+      dataWatch: {}, // cpuUsage watch객체
+      resetInterval: {}, // cpuUsage resetInterval객체
     }
   },
   created() {
@@ -102,8 +99,8 @@ export default {
   mounted() {
     let _self = this
     // watch를 사용하여 store의 chart데이터가 변경될때를 감지하여 chart update를 한다.
-    this.dataWatch = _self.$store.watch(_self.$store.getters.getCpuPerData, cpuPerData => {
-      getNewSeries({x: cpuPerData.x, y: cpuPerData.y} )
+    this.dataWatch = _self.$store.watch(_self.$store.getters.getCpuUsage, cpuUsage => {
+      getNewSeries({x: cpuUsage.x, y: cpuUsage.y} )
       _self.$refs.chart.updateSeries([{
         data: data
       }])
@@ -118,12 +115,12 @@ export default {
       }], false, true)
     }, 60000)
   },
-  methods: {
-  },
   beforeDestroy() {
     // watch 제거
     this.dataWatch()
     clearInterval(this.resetInterval);
+  },
+  methods: {
   },
 }
 </script>

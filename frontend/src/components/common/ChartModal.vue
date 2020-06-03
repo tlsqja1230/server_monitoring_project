@@ -65,11 +65,12 @@
       return {
         modal: false,
         chartList: [
-          {id:'CPU', name: 'CPU'},
-          {id:'XLOG', name: 'XLOG'},
-          {id:'TPS', name: 'TPS'},
-          {id:'ERROR RATE', name: 'ERROR RATE'},
-          {id:'ACTIVE SERVICE', name: 'ACTIVE SERVICE'},
+          {name: 'CPU USAGE'},
+          {name: 'USED MEMORY PERCENT'},
+          {name: 'MEMORY SPACE'},
+          {name: 'PROCESS COUNT'},
+          {name: 'DRIVE SPACE'},
+          {name: 'USED DRIVE PERCENT'},
         ],
         chartName: '',
         width: 0,

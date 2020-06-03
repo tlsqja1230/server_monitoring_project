@@ -1,51 +1,62 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var osu = require('node-os-utils')
-var cpu = osu.cpu
-var app = express();
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const app = express();
 
-// socket setting start
-var server = require('http').createServer(app);
-var io = require('socket.io')(server);
+// socket, os-utils setting start
+const osu = require('node-os-utils')
+const cpu = osu.cpu
+const drive = osu.drive
+const proc = osu.proc
+const mem = osu.mem
 
-let interCpu = new Function()
-let interCpuPerData = new Function()
-let interWhoami = new Function()
-let isInterval = false
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
-let pad =(val)=>{
+const pad =(val)=>{
   return String(val).length === 1? '0'+val : val
 }
+let interData = new Function()
+let isInterval = false
 
 let dataInterval = () =>{
-  // 클라이언트에게 cpuPercentage data 전송
-  interCpuPerData = setInterval(() => {
+  interData = setInterval(() => {
+    let date = new Date()
+    let time = `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
+    // cpu data
     cpu.usage().then(res => {
-      console.log(res)
-      let d = new Date()
-      
-      let cpuPerData = {
-          x: `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`,
+      console.log('cpuUsage',res)
+      let cpuUsage = {
+          x: time,
           y: res
       }
-      io.emit('cpuPerData', {cpuPerData : cpuPerData});
+      io.emit('cpuUsage', {cpuUsage : cpuUsage});
     })
-  }, 2000);
 
-  // 클라이언트에게 cpu data 전송
-  interCpu = setInterval(() => {
-    var count = cpu.count()
-    io.emit('cpu', {cpu : count})
-  }, 2000);
+    // memory data
+    mem.info().then(res => {
+      console.log('memory',res)
+      io.emit('memoryPer', {memoryPer: 100-res.freeMemPercentage.toFixed(2)})
+      
+      let memorySpace = {
+        totalMemMb: res.totalMemMb,
+        usedMemMb: res.usedMemMb,
+        freeMemMb: res.freeMemMb,
+        time: time
+      }
+      io.emit('memorySpace', {memorySpace: memorySpace})
+    })
 
-  // 클라이언트에게 whoami data 전송
-  interWhoami = setInterval(() => {
-    var osCmd = osu.osCmd  
-    osCmd.whoami().then(userName => {
-      io.emit('whoami', {userName : userName});
+    // drive data
+    drive.info().then(res => {
+      console.log('interDrive',res)
+    })
+
+    // process data
+    proc.totalProcesses().then(res=>{
+      console.log('process',res)
     })
   }, 2000);
 }
@@ -62,9 +73,7 @@ io.on('connection' , function(socket) {
     console.log('접속을 해제하였습니다.')
     // 연결된 소켓이 없을 경우 interval 해제
     if(Number(socket.server.httpServer._connections) === 0){
-      clearInterval(interCpu);
-      clearInterval(interCpuPerData);
-      clearInterval(interWhoami);
+      clearInterval(interData);
       isInterval = false
       console.log('인터벌삭제')
     }
@@ -78,7 +87,7 @@ io.on('connection' , function(socket) {
 server.listen(3001, function() {
   console.log('socket io server listening on port 3001')
 })
-// socket setting end
+// socket, os-utils setting end
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
