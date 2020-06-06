@@ -7,7 +7,7 @@
 <script>
 import VueApexCharts from 'vue-apexcharts'
 export default {
-  name: 'CpuUsageChart',
+  name: 'MemorySpaceChart',
   props: {
   },
   components: {
@@ -42,13 +42,12 @@ export default {
           stroke: {
             curve: 'straight'
           },
-
           title: {
-            text: 'Fundamental Analysis of Stocks',
+            text: 'Capacity Unit: Megabyte (MB)',
             align: 'left'
           },
           subtitle: {
-            text: 'Price Movements',
+            text: `Total Capacity ${this.$store.state.memoryTotal}MB`,
             align: 'left'
           },
           labels: '',

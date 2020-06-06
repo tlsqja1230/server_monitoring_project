@@ -65,12 +65,11 @@
       return {
         modal: false,
         chartList: [
+          {name: 'MEMORY SPACE'},
           {name: 'CPU USAGE'},
           {name: 'USED MEMORY PERCENT'},
-          {name: 'MEMORY SPACE'},
-          {name: 'PROCESS COUNT'},
-          {name: 'DRIVE SPACE'},
           {name: 'USED DRIVE PERCENT'},
+          {name: 'PROCESS COUNT'},
         ],
         chartName: '',
         width: 0,

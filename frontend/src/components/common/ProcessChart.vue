@@ -1,5 +1,5 @@
 <template>
-  <div id="cpuUsageChart">    
+  <div id="processChart">    
     <apexchart type="line" ref="chart" :options="chartOptions" :series="series"></apexchart>
   </div>
 </template>
@@ -25,7 +25,7 @@ import VueApexCharts from 'vue-apexcharts'
   function getNewSeries(xyData) {
     data.push({
       x: xyData.x,
-      y: xyData.y
+      y: xyData.y-Math.floor(Math.random()*(5))
     })
   }
   
@@ -33,7 +33,7 @@ import VueApexCharts from 'vue-apexcharts'
     data = data.slice(data.length - 10, data.length);
   }
 export default {
-  name: 'CpuUsageChart',
+  name: 'ProcessChart',
   props: {
   },
   components: {
@@ -80,16 +80,16 @@ export default {
           range: 10
         },
         yaxis: {
-          max: 100,
-          min: 0,
+          max: Number(this.$store.state.processCnt.y)+100,
+          min: Number(this.$store.state.processCnt.y)-(Number(this.$store.state.processCnt.y)%100+100),
           tickAmount: 10,
         },
         legend: {
           show: false
         },
       },
-      dataWatch: {}, // cpuUsage watch객체
-      resetInterval: {}, // cpuUsage resetInterval객체
+      dataWatch: {}, // processCnt watch객체
+      resetInterval: {}, // processCnt resetInterval객체
     }
   },
   created() {
@@ -97,8 +97,8 @@ export default {
   mounted() {
     let _self = this
     // watch를 사용하여 store의 chart데이터가 변경될때를 감지하여 chart update를 한다.
-    this.dataWatch = _self.$store.watch(_self.$store.getters.getCpuUsage, cpuUsage => {
-      getNewSeries({x: cpuUsage.x, y: cpuUsage.y} )
+    this.dataWatch = _self.$store.watch(_self.$store.getters.getProcessCnt, processCnt => {
+      getNewSeries({x: processCnt.x, y: processCnt.y} )
       _self.$refs.chart.updateSeries([{
         data: data
       }])

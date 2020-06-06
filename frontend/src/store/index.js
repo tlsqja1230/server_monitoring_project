@@ -9,7 +9,9 @@ export default new Vuex.Store({
     cpuUsage: '',
     memoryPer: '',
     memorySpace: '',
-    memoryTotal: ''
+    memoryTotal: '',
+    drivePer: '',
+    processCnt: ''
   },
   // 추적이 가능하도록 처리시점이 예상 가능한 동기작업만 진행.
   mutations: {
@@ -28,6 +30,12 @@ export default new Vuex.Store({
         state.memorySpace = res.memorySpace
         state.memoryTotal = res.memorySpace.totalMemMb
       });
+      state.socket.on('drivePer', function(res){
+        state.drivePer = res.drivePer
+      });
+      state.socket.on('processCnt', function(res){
+        state.processCnt = res.processCnt
+      });
     },
   },
   actions: {
@@ -42,6 +50,8 @@ export default new Vuex.Store({
   getters: {
     getCpuUsage: state => () => state.cpuUsage,
     getMemoryPer: state => () => state.memoryPer,
-    getMemorySpace: state => () => state.memorySpace
+    getMemorySpace: state => () => state.memorySpace,
+    getDrivePer: state => () => state.drivePer,
+    getProcessCnt: state => () => state.processCnt,
   }
 })

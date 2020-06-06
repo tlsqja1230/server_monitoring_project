@@ -27,18 +27,18 @@ let dataInterval = () =>{
     let time = `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
     // cpu data
     cpu.usage().then(res => {
-      console.log('cpuUsage',res)
       let cpuUsage = {
           x: time,
           y: res
       }
+      console.log('cpuUsage',cpuUsage)
       io.emit('cpuUsage', {cpuUsage : cpuUsage});
     })
 
     // memory data
     mem.info().then(res => {
-      console.log('memory',res)
-      io.emit('memoryPer', {memoryPer: 100-res.freeMemPercentage.toFixed(2)})
+      io.emit('memoryPer', {memoryPer: (100-res.freeMemPercentage).toFixed(2)})
+      console.log('memoryPer',(100-res.freeMemPercentage).toFixed(2))
       
       let memorySpace = {
         totalMemMb: res.totalMemMb,
@@ -46,19 +46,26 @@ let dataInterval = () =>{
         freeMemMb: res.freeMemMb,
         time: time
       }
+      console.log('memorySpace',memorySpace)
       io.emit('memorySpace', {memorySpace: memorySpace})
     })
 
     // drive data
     drive.info().then(res => {
       console.log('interDrive',res)
+      io.emit('drivePer', {drivePer: res.usedPercentage})
     })
 
     // process data
     proc.totalProcesses().then(res=>{
-      console.log('process',res)
+      let processCnt = {
+        x: time,
+        y: res
+      }
+      console.log('process',processCnt)
+      io.emit('processCnt', {processCnt: processCnt})
     })
-  }, 2000);
+  }, 1000);
 }
 
 io.on('connection' , function(socket) {

@@ -15,7 +15,7 @@ export default {
     },
     data() {
       return {
-        series: [],
+        series: [0],
         chartOptions: {
           chart: {
             type: 'radialBar',
@@ -79,7 +79,6 @@ export default {
       let _self = this
       // watch를 사용하여 store의 chart데이터가 변경될때를 감지하여 chart update를 한다.
       this.dataWatch = _self.$store.watch(_self.$store.getters.getMemoryPer, memoryPer => {
-        debugger
         this.series = [memoryPer]
       })
     },
