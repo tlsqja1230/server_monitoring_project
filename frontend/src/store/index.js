@@ -5,13 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    socket: '',
-    cpuUsage: '',
+    socket: {},
+    cpuUsage: {},
     memoryPer: '',
-    memorySpace: '',
+    memorySpace: {},
     memoryTotal: '',
     drivePer: '',
-    processCnt: ''
+    processCnt: {},
+    driveSpace: {},
+    driveTotal: ''
   },
   // 추적이 가능하도록 처리시점이 예상 가능한 동기작업만 진행.
   mutations: {
@@ -30,8 +32,10 @@ export default new Vuex.Store({
         state.memorySpace = res.memorySpace
         state.memoryTotal = res.memorySpace.totalMemMb
       });
-      state.socket.on('drivePer', function(res){
+      state.socket.on('driveData', function(res){
         state.drivePer = res.drivePer
+        state.driveSpace = res.driveSpace
+        state.driveTotal = res.driveSpace.totalGb
       });
       state.socket.on('processCnt', function(res){
         state.processCnt = res.processCnt
@@ -52,6 +56,7 @@ export default new Vuex.Store({
     getMemoryPer: state => () => state.memoryPer,
     getMemorySpace: state => () => state.memorySpace,
     getDrivePer: state => () => state.drivePer,
+    getDriveSpace: state => () => state.driveSpace,
     getProcessCnt: state => () => state.processCnt,
   }
 })

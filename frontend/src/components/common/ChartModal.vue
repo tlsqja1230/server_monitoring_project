@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-btn color="primary" @click="modal=!modal">Chart</v-btn>
+    <v-btn color="primary" @click="modal=!modal" :disabled="itemList.length === 0">Chart</v-btn>
     <v-dialog v-model="modal" persistent max-width="400px">
       <v-card>
         <v-card-title>
@@ -67,9 +67,10 @@
         chartList: [
           {name: 'MEMORY SPACE'},
           {name: 'CPU USAGE'},
-          {name: 'USED MEMORY PERCENT'},
-          {name: 'USED DRIVE PERCENT'},
+          {name: 'DRIVE SPACE'},
           {name: 'PROCESS COUNT'},
+          {name: 'USED MEMORY PERCENT'},
+          {name: 'USED DRIVE PERCENT'}
         ],
         chartName: '',
         width: 0,

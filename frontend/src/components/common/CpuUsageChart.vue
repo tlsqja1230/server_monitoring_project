@@ -30,7 +30,7 @@ import VueApexCharts from 'vue-apexcharts'
   }
   
   function resetData(){
-    data = data.slice(data.length - 10, data.length);
+    data = data.slice(data.length - 20, data.length);
   }
 export default {
   name: 'CpuUsageChart',
@@ -86,7 +86,7 @@ export default {
         },
         legend: {
           show: false
-        },
+        }
       },
       dataWatch: {}, // cpuUsage watch객체
       resetInterval: {}, // cpuUsage resetInterval객체
@@ -111,7 +111,7 @@ export default {
       _self.$refs.chart.updateSeries([{
         data
       }], false, true)
-    }, 60000)
+    }, 300000)
   },
   beforeDestroy() {
     // watch 제거

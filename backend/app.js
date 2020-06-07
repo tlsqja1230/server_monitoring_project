@@ -53,7 +53,12 @@ let dataInterval = () =>{
     // drive data
     drive.info().then(res => {
       console.log('interDrive',res)
-      io.emit('drivePer', {drivePer: res.usedPercentage})
+      let driveSpace = {
+        totalGb: res.totalGb,
+        usedGb: res.usedGb,
+        freeGb: res.freeGb
+      }
+      io.emit('driveData', {drivePer: res.usedPercentage, driveSpace: driveSpace})
     })
 
     // process data
@@ -65,7 +70,7 @@ let dataInterval = () =>{
       console.log('process',processCnt)
       io.emit('processCnt', {processCnt: processCnt})
     })
-  }, 1000);
+  }, 2000);
 }
 
 io.on('connection' , function(socket) {

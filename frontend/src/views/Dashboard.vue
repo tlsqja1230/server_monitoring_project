@@ -17,8 +17,9 @@
                     <v-card-text class="white">
                         <!-- 차트영역 start -->
                         <CpuUsageChart v-if="item.chartName === 'CPU USAGE'" ></CpuUsageChart>
-                        <MemoryPerChart v-if="item.chartName === 'USED MEMORY PERCENT'"></MemoryPerChart>
                         <MemorySpaceChart v-if="item.chartName === 'MEMORY SPACE'"></MemorySpaceChart>
+                        <MemoryPerChart v-if="item.chartName === 'USED MEMORY PERCENT'"></MemoryPerChart>
+                        <DriveSpaceChart v-if="item.chartName === 'DRIVE SPACE'" ></DriveSpaceChart>
                         <DrivePerChart v-if="item.chartName === 'USED DRIVE PERCENT'"></DrivePerChart>
                         <ProcessChart v-if="item.chartName === 'PROCESS COUNT'" ></ProcessChart>
                         <!-- 차트영역 end -->
@@ -36,6 +37,7 @@ import MemoryPerChart from '@/components/common/MemoryPerChart.vue'
 import MemorySpaceChart from '@/components/common/MemorySpaceChart.vue'
 import DrivePerChart from '@/components/common/DrivePerChart.vue'
 import ProcessChart from '@/components/common/ProcessChart.vue'
+import DriveSpaceChart from '@/components/common/DriveSpaceChart.vue'
 export default {
     name: 'Dashboard',
     components: {
@@ -44,7 +46,8 @@ export default {
         MemoryPerChart,
         MemorySpaceChart,
         DrivePerChart,
-        ProcessChart
+        ProcessChart,
+        DriveSpaceChart
     },
     props: {
     },

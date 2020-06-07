@@ -95,10 +95,10 @@ export default {
         } )
     })
   
-    // every 60 seconds, we reset the data to prevent memory leaks
+    // 5분마다 데이터 리셋
     _self.resetInterval = setInterval(function () {
         _self.resetData()
-    }, 60000)
+    }, 300000)
   },
   beforeDestroy() {
     // watch 제거
@@ -113,7 +113,7 @@ export default {
     },
     resetData(){
         for(let key in this.memoryData){
-            key = key.slice(key.length - 10, key.length);
+            key = key.slice(key.length - 20, key.length);
         }
     }
   },

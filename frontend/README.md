@@ -1,4 +1,4 @@
-# lucifer_front
+# server_monitoring
 
 ## Project setup
 ```
