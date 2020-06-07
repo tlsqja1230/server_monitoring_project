@@ -43,11 +43,11 @@ export default {
             curve: 'straight'
           },
           title: {
-            text: 'Capacity Unit: Megabyte (MB)',
+            text: `Total Capacity ${this.$store.state.memoryTotal}MB`,
             align: 'left'
           },
           subtitle: {
-            text: `Total Capacity ${this.$store.state.memoryTotal}MB`,
+            text: 'Capacity Unit: Megabyte (MB)',
             align: 'left'
           },
           labels: '',
