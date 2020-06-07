@@ -81,7 +81,7 @@ export default {
         },
         yaxis: {
           max: Number(this.$store.state.processCnt.y)+100,
-          min: Number(this.$store.state.processCnt.y)-(Number(this.$store.state.processCnt.y)%100+100),
+          min: Number(this.$store.state.processCnt.y) > 100? Number(this.$store.state.processCnt.y)-(Number(this.$store.state.processCnt.y)%100+100) : 0,
           tickAmount: 10,
         },
         legend: {
