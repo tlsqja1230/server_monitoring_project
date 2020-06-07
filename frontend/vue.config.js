@@ -10,7 +10,7 @@ module.exports = {
       }
     }
   },
-  "outputDir": "../apm_backend/public",
+  "outputDir": "../backend/public",
   "transpileDependencies": [
     "vuetify"
   ]
