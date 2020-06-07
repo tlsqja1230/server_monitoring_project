@@ -30,8 +30,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="onClickBtn('close')">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="onClickBtn('save')">Save</v-btn>
+          <v-btn color="blue darken-1" text @click.prevent="onClickBtn('close')">Close</v-btn>
+          <v-btn color="blue darken-1" text @click.prevent="onClickBtn('save')">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

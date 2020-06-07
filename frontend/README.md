@@ -1,24 +1,16 @@
 # server_monitoring
 
-## Project setup
-```
-npm install
-```
+## 기술스택
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Frontend :
 
-### Compiles and minifies for production
-```
-npm run build
-```
+- Vue.js
+- Vuetify.js(ui framework)
+- apexcharts
+- socket.io
 
-### Lints and fixes files
-```
-npm run lint
-```
+Backend :
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- Express
+- socket.io
+- node-os-utils
