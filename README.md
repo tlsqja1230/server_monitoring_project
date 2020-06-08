@@ -20,3 +20,10 @@ Backend :
 ## 프로젝트 설명
 
 해당 웹서버의 cpu, memory, drive, processCount 등의 실시간 데이터를 소켓통신을 사용하여 다양한 차트로 시각화해주는 프로젝트
+
+- cpuUsage(line chart)
+- memory percent(gauge chart)
+- memory Space(area charts)
+- drive percent(radialBal chart)
+- drive Space(bar chart)
+- process Count(line chart)
