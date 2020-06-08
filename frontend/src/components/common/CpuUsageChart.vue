@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       series: [{
+        name: "Cpu Usage",
         data: data.slice()
       }],
       chartOptions: {

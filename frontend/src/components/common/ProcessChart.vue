@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       series: [{
+        name: "Count",
         data: data.slice()
       }],
       chartOptions: {
