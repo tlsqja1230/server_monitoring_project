@@ -23,7 +23,7 @@ Backend :
 
 - cpuUsage(line chart)
 - memory percent(gauge chart)
-- memory Space(area charts)
+- memory Space(area chart)
 - drive percent(radialBal chart)
 - drive Space(bar chart)
 - process Count(line chart)
