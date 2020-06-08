@@ -27,3 +27,6 @@ Backend :
 - drive percent(radialBal chart)
 - drive Space(bar chart)
 - process Count(line chart)
+
+
+테스트서버(google cloud platform) url - http://34.64.151.146/
